@@ -1,0 +1,3 @@
+*.pyc
+userpass_influx*
+userpass_netatmo
