@@ -44,6 +44,12 @@ def get_number_of_nodes_down():
         running_sum += number_of_nodes_down["%s" % partition]
     number_of_nodes_down['gpu'] = running_sum
 
+    # Aggregate All Counts
+    running_sum = 0
+    for partition in partitions:
+        running_sum += number_of_nodes_down["%s" % partition]
+    number_of_nodes_down['all'] = running_sum
+
     # Fake Data
     # number_of_nodes_down = \
     #     {'cpu': 15,
@@ -144,6 +150,15 @@ def get_number_of_jobs_by_partition_and_state():
             total += number_of_jobs_by_partition[partition][state]
         number_of_jobs_by_state[state] = total
     number_of_jobs_by_partition['gpu'] = number_of_jobs_by_state
+
+    # Aggregate All Counts
+    number_of_jobs_by_state = {}
+    for state in states:
+        total = 0
+        for partition in partitions:
+            total += number_of_jobs_by_partition[partition][state]
+        number_of_jobs_by_state[state] = total
+    number_of_jobs_by_partition['all'] = number_of_jobs_by_state
 
     # Fake Data
     # number_of_jobs_by_partition = \
