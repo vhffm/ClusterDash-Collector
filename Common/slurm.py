@@ -12,7 +12,7 @@ def get_number_of_nodes_down():
     Slurm Command:
     sinfo --format=%o --list-reasons --noheader --partition=zbox
 
-    @return: number_of_nodes_down [Integer]
+    @return: number_of_nodes_down - [Dict {'partition': 2, ...}]
     """
 
     number_of_nodes_down = {}
@@ -70,7 +70,7 @@ def get_cpu_allocations():
     Slurm Command:
     squeue --format=%C --partition zbox --noheader
 
-    @return: number_of_allocated_cpus [Dict {'partition': ncpus}]
+    @return: number_of_allocated_cpus - [Dict {'partition': ncpus, ...}]
     """
 
     # Old, Really Slow Command:
@@ -106,7 +106,7 @@ def get_number_of_jobs_by_partition_and_state():
     Slurm Command:
     squeue --noheader --format=%T:%P --partition=zbox --state=pending
 
-    @return number_of_jobs_by_partition - [Dict {'zbox': {'running': 1}}
+    @return number_of_jobs_by_partition - [Dict {'zbox': {'running': 1}, ...]
     """
 
     partitions = [ 'zbox', 'serial', 'debug', 'tasna', 'vesta' ]
