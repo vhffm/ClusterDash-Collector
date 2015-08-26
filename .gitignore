@@ -1,3 +1,5 @@
 *.pyc
-userpass_influx*
+userpass_influx_test
+userpass_influx_zbox
+userpass_influx
 userpass_netatmo
