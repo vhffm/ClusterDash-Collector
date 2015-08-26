@@ -28,14 +28,14 @@ def compute_utilization(number_of_nodes_down, \
 
     # Tasna Utilization
     # 4 GTX 590 Boards per Server, 2 GPUs per Board, 5 Servers = 40 Slots
-    total_tasna_slots = 40 - number_of_nodes_down['tasna']
+    total_tasna_slots = 40 - number_of_nodes_down['tasna'] * 8
     allocated_tasna_slots = number_of_jobs_by_partition['tasna']['running']
     utilization['tasna'] = \
         float(allocated_tasna_slots) / float(total_tasna_slots)
 
     # Vesta Utilization
     # 8 K80 Boards per Server, 2 GPUs per Board, 2 Servers = 32 Slots
-    total_vesta_slots = 32 - number_of_nodes_down['vesta']
+    total_vesta_slots = 32 - number_of_nodes_down['vesta'] * 16
     allocated_vesta_slots = number_of_jobs_by_partition['vesta']['running']
     utilization['vesta'] = \
         float(allocated_vesta_slots) / float(total_vesta_slots)
