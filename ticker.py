@@ -28,7 +28,8 @@ njobs_by_partition_and_state = \
 # #############################################################################
 utilization_by_partition = \
     derived.compute_utilization(number_of_nodes_down, \
-                                njobs_by_partition_and_state)
+                                njobs_by_partition_and_state, \
+                                cpu_allocations)
 
 # #############################################################################
 # Load Data from Netatmo

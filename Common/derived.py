@@ -4,7 +4,8 @@ Derived Quantities.
 
 
 def compute_utilization(number_of_nodes_down, \
-                        number_of_jobs_by_partition):
+                        number_of_jobs_by_partition, \
+                        number_of_allocated_cpus):
     """
     Compute Cluster Utilization.
 
@@ -21,7 +22,7 @@ def compute_utilization(number_of_nodes_down, \
     # 2 Sockets per Server, 8 Cores per Socket, 192 Servers = 3072 Cores
     total_cpu_cores = 16*192
     cpu_nodes_down = number_of_nodes_down['cpu']*16
-    allocated_cpu_cores = number_of_jobs_by_partition['cpu']['running']
+    allocated_cpu_cores = number_of_allocated_cpus['cpu']
     utilization['cpu'] = \
         float(allocated_cpu_cores) / float(total_cpu_cores - cpu_nodes_down)
 
