@@ -2,11 +2,11 @@
 
 ## Overview
 
-This is a collection of Python scripts to poll cluster scheduling data from the [Slurm Workload Manager](http://slurm.schedmd.com/) and a [Netatmo](http://netatmo.com) device, and then upload it to on instance of [InfluxDB](https://influxdb.com/).
+This is a collection of Python scripts to poll cluster scheduling data from the [Slurm Workload Manager](http://slurm.schedmd.com/), temperature data from a [Netatmo](http://netatmo.com) device, and then upload it to an instance of [InfluxDB](https://influxdb.com/).
 
 For example, the [zBox4 Dashboard](https://labs.cheleb.net/grafana/dashboard/db/zbox) uses these scripts.
 
-## Requirements
+## Usage
 
 - Execute the scripts on a host that can access Slurm data.
 - Put your InfluxDB access data in the *userpass_influx* file.
