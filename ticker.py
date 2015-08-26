@@ -5,6 +5,7 @@ Read, Parse, Post Stats to InfluxDB.
 import Common.slurm as slurm
 import Common.sensors as sensors
 import Common.influx as influx
+import Common.derived as derived
 import time
 
 
@@ -21,6 +22,13 @@ cpu_allocations = slurm.get_cpu_allocations()
 # Jobs per Partition per State
 njobs_by_partition_and_state = \
     slurm.get_number_of_jobs_by_partition_and_state()
+
+# #############################################################################
+# Compute Derived Quantities
+# #############################################################################
+utilization_by_partition = \
+    derived.compute_utilization(number_of_nodes_down, \
+                                njobs_by_partition_and_state)
 
 # #############################################################################
 # Load Data from Netatmo
@@ -51,6 +59,12 @@ for partition, njobs_by_state in njobs_by_partition_and_state.iteritems():
         line = "jobs,state=%s,partition=%s value=%i %i" % \
             (state, partition, njobs, epoch)
         lines.append(line)
+
+# Cluster Utilization
+for partition, utilization in utilization_by_partition.iteritems():
+    line = "utilization,partition=%s value=%.6f %i" % \
+        (partition, utilization, epoch)
+    lines.append(line)
 
 # Netatmo
 line = "room_temperature,room=zbox_room value=%.2f %i" % \
