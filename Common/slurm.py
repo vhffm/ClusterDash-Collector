@@ -68,7 +68,7 @@ def get_cpu_allocations():
     Get CPU Allocations per Partition. Also return sum over all CPU partitions.
 
     Slurm Command:
-    squeue --format=%C --partition zbox --noheader
+    squeue --format=%C --partition zbox --noheader --state running
 
     @return: number_of_allocated_cpus - [Dict {'partition': ncpus, ...}]
     """
@@ -80,7 +80,7 @@ def get_cpu_allocations():
     partitions = [ 'zbox', 'serial', 'debug' ]
     number_of_allocated_cpus = {}
     for partition in partitions:
-        cmd = [ 'squeue', \
+        cmd = [ 'squeue', '--state=running', \
                 '--format=%C', '--noheader', "--partition=%s" % partition ]
         p = sp.Popen(cmd, stdout=sp.PIPE)
         p.wait()
