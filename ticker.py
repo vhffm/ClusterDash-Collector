@@ -38,26 +38,28 @@ temperature, netatmo_epoch = sensors.get_netatmo_temperature()
 
 # #############################################################################
 # Build Data Post
+# NB: For InfluxDB >=0.9.3, integer data points require a trailing i.
+#     For example, ncpus_allocated,parititon=cpu value=5i
 # #############################################################################
 epoch = int(time.time())
 lines = []
 
 # CPU Allocations
 for partition, ncpus_allocated in cpu_allocations.iteritems():
-    line = "ncpus_allocated,partition=%s value=%i %i" % \
+    line = "ncpus_allocated,partition=%s value=%ii %i" % \
         (partition, ncpus_allocated, epoch)
     lines.append(line)
 
 # Number of Nodes Down
 for partition, nnodes_down in number_of_nodes_down.iteritems():
-    line = "nodes,state=down,partition=%s value=%i %i" % \
+    line = "nodes,state=down,partition=%s value=%ii %i" % \
         (partition, nnodes_down, epoch)
     lines.append(line)
 
 # Jobs per Partition per State
 for partition, njobs_by_state in njobs_by_partition_and_state.iteritems():
     for state, njobs in njobs_by_state.iteritems():
-        line = "jobs,state=%s,partition=%s value=%i %i" % \
+        line = "jobs,state=%s,partition=%s value=%ii %i" % \
             (state, partition, njobs, epoch)
         lines.append(line)
 
