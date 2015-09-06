@@ -104,7 +104,9 @@ def get_number_of_jobs_by_partition_and_state():
     Get Number of Jobs by State and Partition.
 
     Slurm Command:
-    squeue --noheader --format=%T:%P --partition=zbox --state=pending
+    squeue --noheader --format=%T:%P --partition=zbox --state=pending --array
+
+    NB: --array unfolds pending array jobs (12_[1..3] => 12_1, 12_2, 12_3)
 
     @return number_of_jobs_by_partition - [Dict {'zbox': {'running': 1}, ...]
     """
@@ -118,6 +120,7 @@ def get_number_of_jobs_by_partition_and_state():
         number_of_jobs_by_state = {}
         for state in states:
             cmd = [ 'squeue', '--noheader', '--format=%T:%P', \
+                    '--array', \
                     "--partition=%s" % partition, \
                     "--state=%s" % state ]
             p = sp.Popen(cmd, stdout=sp.PIPE)
