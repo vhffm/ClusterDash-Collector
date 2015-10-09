@@ -22,7 +22,6 @@ def get_number_of_nodes_down():
                 '--list-reasons', '--noheader', \
                 "--partition=%s" % partition ]
         p = sp.Popen(cmd, stdout=sp.PIPE)
-        p.wait()
         data, _ = p.communicate()
         if len(data) == 0:
             count = 0
@@ -83,7 +82,6 @@ def get_cpu_allocations():
         cmd = [ 'squeue', '--state=running', \
                 '--format=%C', '--noheader', "--partition=%s" % partition ]
         p = sp.Popen(cmd, stdout=sp.PIPE)
-        p.wait()
         data, _ = p.communicate()
         running_sum = 0
         if len(data) > 0:
@@ -124,7 +122,6 @@ def get_number_of_jobs_by_partition_and_state():
                     "--partition=%s" % partition, \
                     "--state=%s" % state ]
             p = sp.Popen(cmd, stdout=sp.PIPE)
-            p.wait()
             data, _ = p.communicate()
             if len(data) == 0:
                 count = 0
