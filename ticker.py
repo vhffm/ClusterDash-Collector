@@ -6,6 +6,7 @@ import Common.slurm as slurm
 import Common.sensors as sensors
 import Common.influx as influx
 import Common.derived as derived
+import Common.nvidia as nvidia
 import time
 
 
@@ -73,6 +74,23 @@ for partition, utilization in utilization_by_partition.iteritems():
 line = "room_temperature,room=zbox_room value=%.2f %i" % \
     (temperature, netatmo_epoch)
 lines.append(line)
+
+# GPU Stats
+for gpu_node in [ 'vesta1', 'vesta2' ]:
+    df, gpu_epoch, sucess = nvidia.read_gpu_stats(node=gpu_node)
+    for irow, [ index, row ] in enumerate(df.iterrows()):
+        line_01 = "gpu_temperature,node=%s,uuid=%s value=%.2f %i" % \
+            (row.node, row.uuid, row.gpu_temperature, gpu_epoch)
+        line_02 = "gpu_power_draw,node=%s,uuid=%s value=%.2f %i" % \
+            (row.node, row.uuid, row.power_draw, gpu_epoch)
+        line_03 = "gpu_utilization,node=%s,uuid=%s value=%.2f %i" % \
+            (row.node, row.uuid, row.gpu_utilization, gpu_epoch)
+        line_04 = "gpu_memory_utilization,node=%s,uuid=%s value=%.2f %i" % \
+            (row.node, row.uuid, row.memory_utilization, gpu_epoch)
+        lines.append(line_01)
+        lines.append(line_02)
+        lines.append(line_03)
+        lines.append(line_04)
 
 # Join
 data = "\n".join(lines)
