@@ -5,11 +5,12 @@ Get Environmental Sensor Data.
 import External.lnetatmo as lnetatmo
 
 
-def get_netatmo_temperature(station='zBox Room'):
+def get_netatmo_temperature(station='zBox', module='zBox Room'):
     """
     Get Netatmo Temperature Data.
 
-    @param: station - Name of sensor to poll [String]
+    @param: station - Name of Netatmo station to poll [String]
+    @param: module - Name of Netatmo module to poll [String]
     @return: temperature - Temperature (Celsius) [Float]
     @return: epoch - Unix Timestamp (Seconds) [Float]
     """
@@ -31,7 +32,7 @@ def get_netatmo_temperature(station='zBox Room'):
     devList = lnetatmo.DeviceList(authorization)
 
     # Get Data
-    temperature = devList.lastData()[station]['Temperature']
-    epoch = devList.lastData()[station]['When']
+    temperature = devList.lastData(station=station)[module]['Temperature']
+    epoch = devList.lastData(station=station)[module]['When']
 
     return temperature, epoch
