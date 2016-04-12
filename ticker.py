@@ -75,9 +75,9 @@ line = "room_temperature,room=zbox_room value=%.2f %i" % \
     (temperature, netatmo_epoch)
 lines.append(line)
 
-# GPU Stats
+# GPU Stats, Tesla Cards
 for gpu_node in [ 'vesta1', 'vesta2' ]:
-    df, gpu_epoch, sucess = nvidia.read_gpu_stats(node=gpu_node)
+    df, gpu_epoch, sucess = nvidia.read_gpu_stats(node=gpu_node, type='tesla')
     for irow, [ index, row ] in enumerate(df.iterrows()):
         line_01 = "gpu_temperature,node=%s,uuid=%s value=%.2f %i" % \
             (row.node, row.uuid, row.gpu_temperature, gpu_epoch)
