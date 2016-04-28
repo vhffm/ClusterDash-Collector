@@ -4,7 +4,17 @@
 
 This is a collection of Python scripts to poll cluster scheduling data from the [Slurm Workload Manager](http://slurm.schedmd.com/), temperature data from a [Netatmo](http://netatmo.com) device, and then upload it to an instance of [InfluxDB](https://influxdb.com/).
 
+## Examples
+
 For example, the [zBox4 Dashboard](https://labs.cheleb.net/grafana/dashboard/db/zbox) uses these scripts.
+
+### Cluster Overview
+
+![Grafana Cluster Overview](/Screenshots/grafana_zbox.png?raw=true)
+
+### GPU Nodes Overview
+
+![Grafana GPU Node Overview](/Screenshots/grafana_zbox_gpu.png?raw=true)
 
 ## Usage
 
