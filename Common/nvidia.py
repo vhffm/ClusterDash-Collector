@@ -60,9 +60,13 @@ def read_gpu_stats(node='vesta1', type='tesla'):
             df = pd.read_csv(fname, sep=', ', header=None, names=names_cols, \
                              engine='python')
 
+            # Deal With Errors
+            df.ix[df.power_draw == '[Unknown Error]', 'power_draw' ] = np.nan
+
             # Drop Units
             df.power_draw = \
-                df.power_draw.apply(lambda a: a.split(' ')[0])
+                df.ix[~pd.isnull(df.power_draw), \
+                      'power_draw'].apply(lambda a: a.split(' ')[0])
             df.gpu_utilization = \
                 df.gpu_utilization.apply(lambda a: a.split(' ')[0])
             df.memory_utilization = \

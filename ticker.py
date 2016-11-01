@@ -8,6 +8,7 @@ import Common.influx as influx
 import Common.derived as derived
 import Common.nvidia as nvidia
 import time
+import numpy as np
 
 
 # #############################################################################
@@ -76,13 +77,17 @@ line = "room_temperature,room=zbox_room value=%.2f %i" % \
 lines.append(line)
 
 # GPU Stats, Tesla Cards
+# NB: InfluxDB cannot deal with NaN values. We thus skip submitting the row.
+#     This is not ideal. We should think of a way to record such failures.
+#     https://github.com/influxdata/influxdb/issues/4089
 for gpu_node in [ 'vesta1', 'vesta2' ]:
     df, gpu_epoch, sucess = nvidia.read_gpu_stats(node=gpu_node, type='tesla')
     for irow, [ index, row ] in enumerate(df.iterrows()):
         lines.append("gpu_temperature,node=%s,uuid=%s value=%.2f %i" % \
                      (row.node, row.uuid, row.gpu_temperature, gpu_epoch))
-        lines.append("gpu_power_draw,node=%s,uuid=%s value=%.2f %i" % \
-                     (row.node, row.uuid, row.power_draw, gpu_epoch))
+        if ~np.isnan(row.power_draw):
+            lines.append("gpu_power_draw,node=%s,uuid=%s value=%.2f %i" % \
+                         (row.node, row.uuid, row.power_draw, gpu_epoch))
         lines.append("gpu_utilization,node=%s,uuid=%s value=%.2f %i" % \
                      (row.node, row.uuid, row.gpu_utilization, gpu_epoch))
         lines.append("gpu_memory_utilization,node=%s,uuid=%s value=%.2f %i" % \
