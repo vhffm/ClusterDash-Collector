@@ -81,7 +81,8 @@ lines.append(line)
 #     This is not ideal. We should think of a way to record such failures.
 #     https://github.com/influxdata/influxdb/issues/4089
 for gpu_node in [ 'vesta1', 'vesta2' ]:
-    df, gpu_epoch, sucess = nvidia.read_gpu_stats(node=gpu_node, type='tesla')
+    df, gpu_epoch, sucess = nvidia.read_gpu_stats(node=gpu_node, \
+                                                  gpu_type='tesla')
     for irow, [ index, row ] in enumerate(df.iterrows()):
         lines.append("gpu_temperature,node=%s,uuid=%s value=%.2f %i" % \
                      (row.node, row.uuid, row.gpu_temperature, gpu_epoch))

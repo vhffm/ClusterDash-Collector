@@ -7,7 +7,7 @@ import numpy as np
 import glob as glob
 
 
-def read_gpu_stats(node='vesta1', type='tesla'):
+def read_gpu_stats(node='vesta1', gpu_type='tesla'):
     """
     Reads stats from CSV file, which was dumped on the GPU nodes.
     
@@ -23,7 +23,7 @@ def read_gpu_stats(node='vesta1', type='tesla'):
     For example, "vesta1_1454748497.csv".
 
     @param: node - GPU node, used to nconstruct filename [String]
-    @param: type - GPU Type (Tesla|GTX) [String]
+    @param: gpu_type - GPU Type (Tesla|GTX) [String]
     @return: df - GPU Stats [Pandas Dataframe]
     @return: epoch - Time (Seconds since 01-01-1970) [Integer]
     @return: success - Did we get data? [Boolean]
@@ -50,7 +50,7 @@ def read_gpu_stats(node='vesta1', type='tesla'):
 
         # Branch on GPU Type. See header documentation.
         # Tesla cards report all stats. GTX cards are gimped.
-        if type == 'tesla':
+        if gpu_type == 'tesla':
             names_cols = [ 'gpu_id', 'uuid', \
                            'gpu_name', \
                            'gpu_temperature', \
@@ -83,7 +83,7 @@ def read_gpu_stats(node='vesta1', type='tesla'):
             # Add Node Column
             df['node'] = pd.Series(["%s" % node]*len(df))
 
-        elif type == 'gtx':
+        elif gpu_type == 'gtx':
             names_cols = [ 'gpu_id', 'uuid', \
                            'gpu_name', \
                            'gpu_temperature' ]
