@@ -79,18 +79,14 @@ lines.append(line)
 for gpu_node in [ 'vesta1', 'vesta2' ]:
     df, gpu_epoch, sucess = nvidia.read_gpu_stats(node=gpu_node, type='tesla')
     for irow, [ index, row ] in enumerate(df.iterrows()):
-        line_01 = "gpu_temperature,node=%s,uuid=%s value=%.2f %i" % \
-            (row.node, row.uuid, row.gpu_temperature, gpu_epoch)
-        line_02 = "gpu_power_draw,node=%s,uuid=%s value=%.2f %i" % \
-            (row.node, row.uuid, row.power_draw, gpu_epoch)
-        line_03 = "gpu_utilization,node=%s,uuid=%s value=%.2f %i" % \
-            (row.node, row.uuid, row.gpu_utilization, gpu_epoch)
-        line_04 = "gpu_memory_utilization,node=%s,uuid=%s value=%.2f %i" % \
-            (row.node, row.uuid, row.memory_utilization, gpu_epoch)
-        lines.append(line_01)
-        lines.append(line_02)
-        lines.append(line_03)
-        lines.append(line_04)
+        lines.append("gpu_temperature,node=%s,uuid=%s value=%.2f %i" % \
+                     (row.node, row.uuid, row.gpu_temperature, gpu_epoch))
+        lines.append("gpu_power_draw,node=%s,uuid=%s value=%.2f %i" % \
+                     (row.node, row.uuid, row.power_draw, gpu_epoch))
+        lines.append("gpu_utilization,node=%s,uuid=%s value=%.2f %i" % \
+                     (row.node, row.uuid, row.gpu_utilization, gpu_epoch))
+        lines.append("gpu_memory_utilization,node=%s,uuid=%s value=%.2f %i" % \
+                     (row.node, row.uuid, row.memory_utilization, gpu_epoch))
 
 # Join
 data = "\n".join(lines)
